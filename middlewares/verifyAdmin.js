@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
     let user = await User.findById(verified._id);
     if (!user) return res.status(400).send({ message: "Invalid Token" });
     req.user = user;
-    if (user.type !== "admin" || user.type !== "user") return res.status(403).send({ message: "Access denied." });
+    if (user.type !== "admin") return res.status(403).send({ message: "Access denied." });
     next();
   } catch (error) {
     res.status(400).send({ message: "Invalid Token" });

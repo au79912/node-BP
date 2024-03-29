@@ -19,17 +19,29 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-const adminMiddleware = require("./middlewares/verifyUser");
+const adminMiddleware = require("./middlewares/verifyAdmin");
+const userMiddleware = require("./middlewares/verifyUser");
 
-const AdminUserRoutes = require("./routes/admin/userController");
-const AdminAuthRoutes = require("./routes/admin/authController");
-const AdminCategoryRoutes = require("./routes/admin/catrgoryController");
-const AdminItemRoutes = require("./routes/admin/itemController");
+const authController = require("./routes/user/authController");
+app.use("/user", authController);
 
-app.use("/admin/auth", AdminAuthRoutes);
-app.use("/admin/user", adminMiddleware, AdminUserRoutes);
-app.use("/admin/category", adminMiddleware, AdminCategoryRoutes);
-app.use("/admin/item", adminMiddleware, AdminItemRoutes);
+// admin
+const userController = require("./routes/admin/userController");
+app.use("/admin", adminMiddleware, userController);
+
+const courseController = require("./routes/admin/courseController");
+app.use("/admin", adminMiddleware, courseController);
+
+const subjectController = require("./routes/admin/subjectController");
+app.use("/admin", adminMiddleware, subjectController);
+
+
+// user
+const userCourseController = require("./routes/user/courseController");
+app.use("/user", userMiddleware, userCourseController);
+
+const userSubjectController = require("./routes/user/subjectController");
+app.use("/user", userMiddleware, userSubjectController);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

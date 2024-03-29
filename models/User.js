@@ -27,6 +27,9 @@ const UserSchema = mongoose.Schema({
   remember_token: {
     type: String,
   },
+  courses: {
+    type: Array,
+  },
   date: {
     type: Date,
     default: Date.now,

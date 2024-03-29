@@ -52,4 +52,20 @@ router.delete("/delete-user/:id", async (req, res) => {
     }
 })
 
+router.post("/user-status", async (req, res) => {
+    try{
+        const {id} = req.body;
+        
+        const user = await Users.findById(id);
+        let status = user.status === "active" ? "inactive" : "active";
+        await Users.findByIdAndUpdate
+        (id, {status});
+        
+        return res.status(200).json({message: "User status updated successfully"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+})
+
 module.exports = router;
